@@ -1,0 +1,31 @@
+.md-sidebar--primary {
+    width: 200px;
+}
+
+.md-sidebar--secondary {
+    width: 200px;
+}
+
+.md-content {
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+body {
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: 16px;
+    background-color: #FCFCF8; /* Define o fundo como #FCFCF8 */
+}
+
+.md-header {
+    background-color: #11182D;
+}
+
+.md-header a,
+.md-header .md-header-nav__title {
+    color: #FFFFFF;
+}
+
+.md-header a:hover {
+    color: #FFD700;
+}
