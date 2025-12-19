@@ -1,53 +1,67 @@
+# MLP_KerasPredict.py
 import os
-from tensorflow.keras.models import load_model
-import pickle
-import numpy as np
 import warnings
-warnings.filterwarnings("ignore")
-os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
+import pickle
+import joblib
+import numpy as np
+from tensorflow.keras.models import load_model
 
+warnings.filterwarnings("ignore")
+os.environ["TF_CPP_MIN_LOG_LEVEL"] = "2"
+
+# =========================
+#  Pipeline classes
+# =========================
 class KerasPipelineModel:
-    def __init__(self, model_path, scalerX_path, scalerY_path):
-        # Carrega o modelo do Keras
+    def __init__(self, model_path: str, scalerX_path: str, scalerY_path: str):
+
         self.model = load_model(model_path)
 
-        # Carrega o scaler dos dados de entrada
-        with open(scalerX_path, 'rb') as file:
+        with open(scalerX_path, "rb") as file:
             self.scalerX = pickle.load(file)
 
-        # Carrega o scaler dos dados de saída
-        with open(scalerY_path, 'rb') as file:
+        with open(scalerY_path, "rb") as file:
             self.scalerY = pickle.load(file)
 
+    @staticmethod
+    def _ensure_2d(X):
+        X = np.asarray(X, dtype=float)
+        if X.ndim == 1:
+            X = X.reshape(1, -1)
+        return X
+
     def predict(self, input_data):
-        # 1. Escalar os dados de entrada
-        #print(input_data)
+        X = self._ensure_2d(input_data)
+        X_scaled = self.scalerX.transform(X)
 
-        X_valid = self.scalerX.transform(input_data)
-        #print(X_valid)
+        y_pred_scaled = self.model.predict(X_scaled, verbose=0)
 
-        # 2. Fazer a predição com o modelo
-        ypred_Scaled = self.model.predict(X_valid, verbose=0)
-        #print(ypred_Scaled)
+        y_pred = self.scalerY.inverse_transform(y_pred_scaled)
+        return y_pred
 
-        # 3. Inverter a escala dos dados de saída
-        ypred = self.scalerY.inverse_transform(ypred_Scaled)
-        #print(ypred)
+_PIPELINE_CACHE = {}
 
-        return ypred
+def _get_pipeline(model_path: str = "surrogate_model/Keras_MLP_Surrogate.keras",
+                  scalerX_path: str = "surrogate_model/scalerX.pkl",
+                  scalerY_path: str = "surrogate_model/scalerY.pkl"):
+
+    key = (model_path, scalerX_path, scalerY_path)
+    if key in _PIPELINE_CACHE:
+        return _PIPELINE_CACHE[key]
+
+    pipeline = KerasPipelineModel(model_path, scalerX_path, scalerY_path)
+
+    _PIPELINE_CACHE[key] = pipeline
+    return pipeline
 
 
 def PredictValues(input_data, Tensor=False):
-    model_path = 'surrogate_model/Keras_MLP_Surrogate.keras'
-    scalerX_path = 'surrogate_model/scalerX.pkl'
-    scalerY_path = 'surrogate_model/scalerY.pkl'
+    pipeline_model = _get_pipeline()
 
-    # Criar uma instância do KerasPipelineModel
-    pipeline_model = KerasPipelineModel(model_path, scalerX_path, scalerY_path)
+    ypred = pipeline_model.predict(input_data)  # sempre 2D
 
-    ypred = pipeline_model.predict(input_data)
-
-    if Tensor == True:
+    if Tensor:
         return ypred
     else:
-        return ypred[0]
+        # Garante 1D (n_outputs,)
+        return np.asarray(ypred, dtype=float).reshape(ypred.shape[0], -1)[0]
