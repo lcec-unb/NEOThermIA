@@ -80,14 +80,20 @@ This transforms magnetic hyperthermia planning into a fast, interactive, data‑
 
 ## Scientific References
 
-- **Gontijo, R.G.; Ossege, F.E.L.; Pereira, J.L.J. (2025).**  
-  *Evaluation of machine learning algorithms in the prediction of key therapeutic quantities in magnetic hyperthermia.* *Computers & Mathematics with Applications*, 194, 362–378.
+- **Gontijo, R. G.; Ossege, F. E. L.; Pereira, J. L. J. (2025).**  
+  *Evaluation of machine learning algorithms in the prediction of key therapeutic quantities in magnetic hyperthermia.*  
+  **Computers & Mathematics with Applications**, **194**, 362–378.  
+  https://www.sciencedirect.com/science/article/pii/S089812212500272X
 
-- **Berkov, D.V., Iskakova, L.Y., Zubarev, A.Y. (2009).**  
-  *Theoretical study of the magnetization dynamics of nondilute ferrofluids.* *Physical Review E*, 79, 021407.
+- **Berkov, D. V.; Iskakova, L. Y.; Zubarev, A. Y. (2009).**  
+  *Theoretical study of the magnetization dynamics of nondilute ferrofluids.*  
+  **Physical Review E**, **79**, 021407.  
+  https://journals.aps.org/pre/abstract/10.1103/PhysRevE.79.021407
 
-- **Salloum, M., Ma, R., Zhu, L. (2008).**  
-  *An in‑vivo experimental study of temperature elevations in animal tissue during magnetic nanoparticle hyperthermia.* *International Journal of Hyperthermia*, 24, 589–601.
+- **Salloum, M.; Ma, R.; Zhu, L. (2008).**  
+  *An in vivo experimental study of temperature elevations in animal tissue during magnetic nanoparticle hyperthermia.*  
+  **International Journal of Hyperthermia**, **24**, 589–601.  
+  https://pubmed.ncbi.nlm.nih.gov/18979310/
 
 ---
 
