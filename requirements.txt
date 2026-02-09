@@ -16,3 +16,6 @@ pymoo>=0.6.0
 
 # Machine Learning (MLP surrogate - CPU only)
 tensorflow-cpu>=2.16.1
+
+#scikit-learn
+scikit-learn
